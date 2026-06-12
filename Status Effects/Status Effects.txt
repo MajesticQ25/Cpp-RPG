@@ -1,0 +1,13 @@
+Thisnis a list of "Status effects or possible Status effects that
+can or will be applied to the moves or be made moves 
+
+1. Burn
+2. Heal
+3. Confuse
+4. Poison
+5. Paralysis
+6. Sleep
+7. Elemental Weakness
+8. Elemental Buffs
+9. Status immunity
+10. Status Buffs
