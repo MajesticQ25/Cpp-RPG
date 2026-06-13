@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include "/workspaces/Cpp-RPG/Entity/Entity.h"
 #include "/workspaces/Cpp-RPG/Battle System/BattleSystem.h"
 
 int main()

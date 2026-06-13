@@ -1,0 +1,7 @@
+Poison
+Paralysis
+Sleep
+Inaccuracy
+Stun
+Bleed
+Distorted

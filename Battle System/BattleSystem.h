@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "/workspaces/Cpp-RPG/Entities/Player/Base Class/Entity.h"
+#include "/workspaces/Cpp-RPG/Entity/Entity.h"
 
 class BattleSystem
 {
