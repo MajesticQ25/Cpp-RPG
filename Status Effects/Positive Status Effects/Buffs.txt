@@ -1,0 +1,6 @@
+Attack up
+Defense up
+power up
+Speed up
+Status up
+element up
