@@ -16,6 +16,9 @@ class Entity
 	int mp;
 	int sp;
 
+	int level;
+	int exp;
+
 	int atkPow;
 	int defPow;
 	bool isBurned;
@@ -30,10 +33,15 @@ class Entity
 		maxHp = 0;
 		mp = 0;
 		sp = 0;
+
+level = 1;
+exp = 0;
+
 		atkPow = 0;
 		defPow = 0;
 		isBurned = false;
 		isStunned = false;
+
 	}
 
 	bool isAlive()
@@ -86,6 +94,16 @@ class Entity
 	{
 		return sp;
 	}
+
+	int getLevel()
+	{
+	    return level;
+	}
+
+	int getExp()
+		{
+		    return exp;
+		}
 
 	int getMoveCount()
 	{
@@ -207,6 +225,21 @@ class Entity
 		}
 		return true;
 	}
+
+	void gainExp(int amount)
+	{
+	    exp += amount;
+
+		    std::cout << name
+			              << " gained "
+						                << amount
+										              << " EXP!\n";
+
+													      if(exp >= 100)
+														      {
+															          levelUp();
+																	      }
+																		  }
 };
 
 #endif
