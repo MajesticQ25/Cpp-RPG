@@ -226,20 +226,37 @@ exp = 0;
 		return true;
 	}
 
-	void gainExp(int amount)
+	void levelUp()
 	{
-	    exp += amount;
+	    level++;
 
-		    std::cout << name
-			              << " gained "
-						                << amount
-										              << " EXP!\n";
+		    exp -= 100;
 
-													      if(exp >= 100)
-														      {
-															          levelUp();
-																	      }
-																		  }
+			    maxHp += 10;
+				    hp = maxHp;
+
+					    atkPow += 5;
+						    defPow += 3;
+
+							    std::cout << "\n*** LEVEL UP! ***\n";
+
+								    std::cout << name
+									              << " reached Level "
+												                << level
+																              << "!\n";
+
+																			      std::cout << "HP increased to "
+																				                << maxHp
+																								              << "\n";
+
+																											      std::cout << "Attack increased to "
+																												                << atkPow
+																																              << "\n";
+
+																																			      std::cout << "Defense increased to "
+																																				                << defPow
+																																								              << "\n";
+																																											  }
 };
 
 #endif
