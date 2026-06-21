@@ -8,7 +8,7 @@
 
 class Entity
 {
-  private:
+private:
 	std::string name;
 
 	int hp;
@@ -26,7 +26,7 @@ class Entity
 
 	std::vector<Move> moves;
 
-  public:
+public:
 	Entity()
 	{
 		hp = 0;
@@ -34,14 +34,13 @@ class Entity
 		mp = 0;
 		sp = 0;
 
-level = 1;
-exp = 0;
+		level = 1;
+		exp = 0;
 
 		atkPow = 0;
 		defPow = 0;
 		isBurned = false;
 		isStunned = false;
-
 	}
 
 	bool isAlive()
@@ -97,13 +96,13 @@ exp = 0;
 
 	int getLevel()
 	{
-	    return level;
+		return level;
 	}
 
 	int getExp()
-		{
-		    return exp;
-		}
+	{
+		return exp;
+	}
 
 	int getMoveCount()
 	{
@@ -228,35 +227,35 @@ exp = 0;
 
 	void levelUp()
 	{
-	    level++;
+		level++;
 
-		    exp -= 100;
+		exp -= 100;
 
-			    maxHp += 10;
-				    hp = maxHp;
+		maxHp += 10;
+		hp = maxHp;
 
-					    atkPow += 5;
-						    defPow += 3;
+		atkPow += 5;
+		defPow += 3;
 
-							    std::cout << "\n*** LEVEL UP! ***\n";
+		std::cout << "\n*** LEVEL UP! ***\n";
 
-								    std::cout << name
-									              << " reached Level "
-												                << level
-																              << "!\n";
+		std::cout << name
+				  << " reached Level "
+				  << level
+				  << "!\n";
 
-																			      std::cout << "HP increased to "
-																				                << maxHp
-																								              << "\n";
+		std::cout << "HP increased to "
+				  << maxHp
+				  << "\n";
 
-																											      std::cout << "Attack increased to "
-																												                << atkPow
-																																              << "\n";
+		std::cout << "Attack increased to "
+				  << atkPow
+				  << "\n";
 
-																																			      std::cout << "Defense increased to "
-																																				                << defPow
-																																								              << "\n";
-																																											  }
+		std::cout << "Defense increased to "
+				  << defPow
+				  << "\n";
+	}
 };
 
 #endif
