@@ -44,10 +44,12 @@ class BattleSystem
 
 		enemy.useMove(move, player);
 
-		if (!player.isAlive())
+		if (player.isAlive())
 		{
-			return;
-		}
+		    std::cout << "\nVictory!\n";
+
+			    player.gainExp(50);
+				}
 
 		enemy.applyStatus();
 
@@ -79,7 +81,11 @@ class BattleSystem
 		}
 
 		if (player.isAlive())
-			std::cout << "\nVictory!\n";
+		{
+		    std::cout << "\nVictory!\n";
+
+			    player.gainExp(50);
+				}
 		else
 			std::cout << "\nYou were defeated.\n";
 	}

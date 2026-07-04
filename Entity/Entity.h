@@ -224,6 +224,21 @@ public:
 		}
 		return true;
 	}
+	
+	void gainExp(int amount)
+	{
+	    exp += amount;
+
+		    std::cout << name
+			              << " gained "
+						                << amount
+										              << " EXP!\n";
+
+													      if(exp >= 100)
+														      {
+															          levelUp();
+																	      }
+																		  }
 
 	void levelUp()
 	{
