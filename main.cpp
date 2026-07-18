@@ -21,6 +21,8 @@ int main()
 	enemy.setSp(60);
 	enemy.setAtk(20);
 	enemy.setDef(50);
+	
+	enemy.setExpReward(25);
 
 	Move flamethrower("Flamethrower", 40, 90, EFFECT_BURN);
 	Move starlight("Starlight Flash", 30, 85, EFFECT_NONE);

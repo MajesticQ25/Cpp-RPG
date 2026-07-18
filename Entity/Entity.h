@@ -18,6 +18,7 @@ private:
 
 	int level;
 	int exp;
+	int expReward;
 
 	int atkPow;
 	int defPow;
@@ -36,6 +37,7 @@ public:
 
 		level = 1;
 		exp = 0;
+		expReward = 0;
 
 		atkPow = 0;
 		defPow = 0;
@@ -78,6 +80,11 @@ public:
 	{
 		defPow = value;
 	}
+	
+	void setExpReward(int value)
+	{
+		expReward = value;
+		}
 
 	std::string getName()
 	{
@@ -103,6 +110,11 @@ public:
 	{
 		return exp;
 	}
+	
+	int getExpReward()
+	{
+	    return expReward;
+		}
 
 	int getMoveCount()
 	{
@@ -227,17 +239,17 @@ public:
 	
 	void gainExp(int amount)
 	{
-	    exp += amount;
+		exp += amount;
 
-		    std::cout << name
-			              << " gained "
-						                << amount
-										              << " EXP!\n";
+			std::cout << name
+						  << " gained "
+										<< amount
+													  << " EXP!\n";
 
-													      if(exp >= 100)
-														      {
-															          levelUp();
-																	      }
+														  if(exp >= 100)
+															  {
+																	  levelUp();
+																		  }
 																		  }
 
 	void levelUp()
