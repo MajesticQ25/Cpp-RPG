@@ -13,13 +13,16 @@ class Move
 	std::string name;
 	int power;
 	int accuracy;
+	int mpCost;
 	int effectType;
+	
 
   public:
-	Move(std::string n, int p, int a, int e)
+	Move(std::string n, int p, int a, int m, int e)
 	{
 		name = n;
 		power = p;
+		mpCost = m;
 		accuracy = a;
 		effectType = e;
 	}
@@ -32,6 +35,11 @@ class Move
 	int getPower()
 	{
 		return power;
+	}
+	
+	int getMpCost()
+	{
+		return mpCost;
 	}
 
 	int getAccuracy()

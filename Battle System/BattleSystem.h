@@ -29,6 +29,11 @@ class BattleSystem
 		}
 
 		player.applyStatus();
+		
+		if(!player.isAlive())
+		{
+			return;
+		}
 
 		if (!player.canAct())
 			return;
@@ -45,6 +50,12 @@ class BattleSystem
 		enemy.useMove(move, player);
 
 		enemy.applyStatus();
+		
+		if(!enemy.isAlive())
+		
+		{
+			return;
+		}
 
 		if (!enemy.canAct())
 			return;
@@ -75,9 +86,9 @@ class BattleSystem
 
 		if (player.isAlive())
 		{
-		    std::cout << "\nVictory!\n";
+			std::cout << "\nVictory!\n";
 
-			    player.gainExp(enemy.getExpReward());
+				player.gainExp(enemy.getExpReward());
 				}
 		else
 			std::cout << "\nYou were defeated.\n";
@@ -87,10 +98,13 @@ class BattleSystem
 	{
 		std::cout << "\n===== BATTLE STATUS =====\n";
 
-		std::cout << player.getName()
+		std::cout << player.getName() << " LVL: "
+				  << player.getLevel()
 				  << " HP: "
 				  << player.getHp()
-				  << "\n";
+				  << " EXP: "
+				  << player.getExp()
+				  << "/100\n";
 
 		std::cout << enemy.getName()
 				  << " HP: "

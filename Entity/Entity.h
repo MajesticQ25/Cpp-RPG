@@ -14,10 +14,12 @@ private:
 	int hp;
 	int maxHp;
 	int mp;
+	int maxMp;
 	int sp;
 
 	int level;
 	int exp;
+	int maxExp;
 	int expReward;
 
 	int atkPow;
@@ -33,10 +35,12 @@ public:
 		hp = 0;
 		maxHp = 0;
 		mp = 0;
+		maxMp = 0;
 		sp = 0;
 
 		level = 1;
 		exp = 0;
+		maxExp = 100;
 		expReward = 0;
 
 		atkPow = 0;
@@ -64,6 +68,7 @@ public:
 	void setMp(int value)
 	{
 		mp = value;
+		maxMp = value;
 	}
 
 	void setSp(int value)
@@ -81,10 +86,16 @@ public:
 		defPow = value;
 	}
 	
+	void setMaxExp(int value)
+	{
+		maxExp = value;
+	}
+	
 	void setExpReward(int value)
 	{
 		expReward = value;
-		}
+	}
+	
 
 	std::string getName()
 	{
@@ -95,10 +106,35 @@ public:
 	{
 		return hp;
 	}
-
+	
+	int getMaxHp()
+	{
+		return maxHp;
+	}
+	
+	int getMp()
+	{
+		return mp;
+	}
+	
+	int getMaxMp()
+	{
+		return maxMp;
+	}
+	
 	int getSp()
 	{
 		return sp;
+	}
+	
+	int getAtk()
+	{
+		return atkPow;
+	}
+	
+	int getDef()
+	{
+		return defPow;
 	}
 
 	int getLevel()
@@ -111,9 +147,14 @@ public:
 		return exp;
 	}
 	
+	int getMaxExp()
+	{
+		return maxExp;
+	}
+	
 	int getExpReward()
 	{
-	    return expReward;
+		return expReward;
 		}
 
 	int getMoveCount()
@@ -132,7 +173,18 @@ public:
 		{
 			std::cout << i + 1 << ". "
 					  << moves[i].getName()
-					  << std::endl;
+					  << "\n Power: "
+					  <<
+					  moves[i].getPower()
+					  << 
+					  " \n Accuracy: "
+					  << moves[i].getAccuracy()
+					  <<"%\n"<<
+					  " \n MP Cost: "
+					  << 
+					  moves[i].getMpCost()
+					  <<
+					  std::endl;
 		}
 	}
 
@@ -140,10 +192,21 @@ public:
 	{
 		Move move = moves[index];
 		int effect = move.getEffectType();
+		
+		if (mp < move.getMpCost())
+		{
+			std::cout << "Not enough MP!\n";
+				return;
+				}
 
-		// Accuracy check
+				mp -= move.getMpCost();
+		
+		//-----------------/
+		//Accuracy Check   /
+		//-----------------/
+		
 		int roll = rand() % 100;
-
+		
 		if (roll >= move.getAccuracy())
 		{
 			std::cout << name << " used "
@@ -151,6 +214,10 @@ public:
 					  << " but missed!\n";
 			return;
 		}
+		
+		//------------------/
+		//Healing Effect    /
+		//------------------/
 
 		if (effect == EFFECT_HEAL)
 		{
@@ -165,8 +232,10 @@ public:
 
 			return;
 		}
-
-		// Critical hit check
+		//--------------------/
+		// Critical hit check/
+		//------------------/
+		
 		bool isCrit = (rand() % 100) < 10;
 
 		int damage = (atkPow + move.getPower()) - target.defPow;
@@ -183,11 +252,17 @@ public:
 		if (isCrit)
 			std::cout << "Critical Hit!\n";
 
+					
+			
 		std::cout << "It dealt "
 				  << damage << " damage!\n";
 
 		target.takeDamage(damage);
 
+		//------------------/
+		// Effects          /
+		//------------------/
+		
 		if (effect == EFFECT_BURN)
 		{
 			target.isBurned = true;
@@ -201,6 +276,11 @@ public:
 		}
 	}
 
+	
+	//-------------------
+	// Damage Calc
+	//-------------------
+	
 	void takeDamage(int dmg)
 	{
 		hp -= dmg;
@@ -216,7 +296,7 @@ public:
 		if (isBurned)
 		{
 			int burnDamage = 5;
-			hp -= burnDamage;
+			takeDamage(burnDamage);
 
 			if (hp < 0)
 				hp = 0;
@@ -246,7 +326,7 @@ public:
 										<< amount
 													  << " EXP!\n";
 
-														  if(exp >= 100)
+														  while(exp >= maxExp)
 															  {
 																	  levelUp();
 																		  }
@@ -256,10 +336,14 @@ public:
 	{
 		level++;
 
-		exp -= 100;
+		exp -= maxExp;
+		maxExp += 50;
 
 		maxHp += 10;
 		hp = maxHp;
+		
+		maxMp += 5;
+		mp = maxMp;
 
 		atkPow += 5;
 		defPow += 3;
@@ -274,6 +358,9 @@ public:
 		std::cout << "HP increased to "
 				  << maxHp
 				  << "\n";
+				  std::cout << "MP increased to "
+							<< maxMp
+									  << "\n";
 
 		std::cout << "Attack increased to "
 				  << atkPow
@@ -282,6 +369,41 @@ public:
 		std::cout << "Defense increased to "
 				  << defPow
 				  << "\n";
+	}
+	
+	void showStats()
+	{
+		std::cout << "=============================\n";
+		std::cout << "         CHARACTER\n";
+		std::cout << "=============================\n";
+
+		std::cout << "Name    : " << getName() << "\n";
+		std::cout << "Level   : " << getLevel() << "\n";
+		std::cout << "EXP     : " << getExp() << "/" << getMaxExp() << "\n";
+
+		std::cout << "HP      : " << getHp() << "/" << getMaxHp() << "\n";
+		std::cout << "MP      : " << getMp() << "/" << getMaxMp() << "\n";
+		std::cout << "SP      : " << getSp() << "\n";
+
+		std::cout << "Attack  : " << getAtk() << "\n";
+		std::cout << "Defense : " << getDef() << "\n";
+		  std::cout 
+		  << "Status :";
+
+		 if (isBurned)
+		 {
+			 std::cout << "Burned";
+			 }
+			 else if (isStunned)
+			 {
+				 std::cout << "Stunned";
+				 }
+				 else
+				 {
+					 std::cout << "Healthy";
+					 }
+
+					 std::cout << std::endl;
 	}
 };
 

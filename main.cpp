@@ -12,23 +12,59 @@ int main()
 
 	player.setName("Hero");
 	player.setHp(100);
+	player.setMp(150);
 	player.setSp(80);
 	player.setAtk(40);
 	player.setDef(30);
 
 	enemy.setName("Drake");
 	enemy.setHp(100);
+	enemy.setMp(150);
 	enemy.setSp(60);
 	enemy.setAtk(20);
 	enemy.setDef(50);
 	
-	enemy.setExpReward(25);
+	enemy.setExpReward(100);
 
-	Move flamethrower("Flamethrower", 40, 90, EFFECT_BURN);
-	Move starlight("Starlight Flash", 30, 85, EFFECT_NONE);
-	Move airShred("Air Shredder", 35, 80, EFFECT_STUN);
-	Move crash("Crash Into", 50, 50, EFFECT_NONE);
-	Move healingLight("Healing Light", 0, 100, EFFECT_HEAL);
+	Move flamethrower(
+		"Flamethrower", 
+		40, //power
+		90, //accuracy
+		10, //mp cost
+		EFFECT_BURN
+	);
+	
+	Move starlight(
+		"Starlight Flash", 
+		30, //power
+		85, //accuracy
+		20, //mp cost 
+		EFFECT_NONE
+	);
+	
+	Move airShred(
+		"Air Shredder", 
+		35, //power
+		80, //accuracy
+		10, //mp cost 
+		EFFECT_STUN
+	);
+	
+	Move crash(
+		"Crash Into", 
+		50, //power
+		50, //accuracy
+		10, //mp cost 
+		EFFECT_NONE
+	);
+	
+	Move healingLight(
+		"Healing Light", 
+		0,  //power
+		100, //accuracy
+		10,  //mp cost
+		EFFECT_HEAL
+	);
 
 	player.addMove(flamethrower);
 	player.addMove(starlight);
