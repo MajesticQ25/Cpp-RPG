@@ -13,7 +13,7 @@ enum class StatusType
 	Regen
 };
 
-enum DamageType
+enum class DamageType
 {
 	Physical,
 	Fire,
@@ -25,14 +25,15 @@ enum DamageType
 	Spirit
 };
 
-enum TargetType
+enum class TargetType
 {
 	Self,
-	Single_Enemy,
-	All_Enemies,
-	Multiple_Enwmies,
-	Single_Ally,
-	All_Allies
+	SingleEnemy,
+	AllEnemies,
+	MultipleEnemies,
+	Nearby enemies,
+	SingleAlly,
+	AllAllies
 };
 
 #endif

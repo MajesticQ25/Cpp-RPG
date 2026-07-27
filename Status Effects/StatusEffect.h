@@ -13,8 +13,6 @@ class StatusEffect
 	int attackModifier;
 	int defenseModifier;
 
-	
-	
 	StatusType type;
 
 	bool preventsAction;
@@ -39,44 +37,62 @@ class StatusEffect
 		preventsAction = stopAction;
 	}
 
-	std::string getName()
+	std::string getName() const
 	{
 		return name;
 	}
 
-	std::string getDescription()
+	std::string getDescription() const
 	{
 		return description;
 	}
 
-	int getDuration()
+	int getDuration() const
 	{
 		return duration;
 	}
 
-	int getAttackModifier()
+	int getAttackModifier() const
 	{
 		return attackModifier;
 	}
 
-	int getDefenseModifier()
+	int getDefenseModifier() const
 	{
 		return defenseModifier;
 	}
 
-	StatusType getType()
+	StatusType getType() const
 	{
 		return type;
 	}
 
-	int getDamagePerTurn()
+	int getDamagePerTurn() const
 	{
 		return damagePerTurn;
 	}
 
-	bool doesPreventAction()
+	bool doesPreventAction() const
 	{
 		return preventsAction;
+	}
+
+	bool dealsDamage() const
+	{
+		return damagePerTurn > 0;
+	}
+
+	void reduceDuration()
+	{
+		if (duration > 0)
+		{
+			duration--;
+		}
+	}
+
+	bool hasExpired() const
+	{
+		return duration <= 0;
 	}
 };
 
