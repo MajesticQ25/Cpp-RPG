@@ -2,6 +2,8 @@
 #include <ctime>
 #include "/workspaces/Cpp-RPG/Entity/Entity.h"
 #include "/workspaces/Cpp-RPG/Battle System/BattleSystem.h"
+#include "StatusEffect.h"
+#include "StatusDatabase.h"
 
 int main()
 {
@@ -31,7 +33,7 @@ int main()
 		40, //power
 		90, //accuracy
 		10, //mp cost
-		EFFECT_BURN
+		StatusType::Burn
 	);
 	
 	Move starlight(
@@ -39,7 +41,7 @@ int main()
 		30, //power
 		85, //accuracy
 		20, //mp cost 
-		EFFECT_NONE
+		StatusType::None
 	);
 	
 	Move airShred(
@@ -47,7 +49,7 @@ int main()
 		35, //power
 		80, //accuracy
 		10, //mp cost 
-		EFFECT_STUN
+		StatusType::None
 	);
 	
 	Move crash(
@@ -55,7 +57,7 @@ int main()
 		50, //power
 		50, //accuracy
 		10, //mp cost 
-		EFFECT_NONE
+		StatusType::None
 	);
 	
 	Move healingLight(
@@ -63,12 +65,18 @@ int main()
 		0,  //power
 		100, //accuracy
 		10,  //mp cost
-		EFFECT_HEAL
+		StatusType::None
 	);
 
 	player.addMove(flamethrower);
 	player.addMove(starlight);
 	player.addMove(healingLight);
+	
+	StatusType type = flamethrower.getStatusType();
+	
+	
+	StatusEffect effect =
+		StatusDatabase::getStatus(type);
 
 	enemy.addMove(airShred);
 	enemy.addMove(crash);

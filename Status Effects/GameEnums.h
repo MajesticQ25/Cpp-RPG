@@ -3,6 +3,7 @@
 
 enum class StatusType
 {
+	None,
 	Burn,
 	Stun,
 	Poison,
@@ -10,7 +11,9 @@ enum class StatusType
 	Sleep,
 	Paralysis,
 	Bleed,
-	Regen
+	Regen,
+	Crit_Up,
+	Heal
 };
 
 enum class DamageType
@@ -31,7 +34,7 @@ enum class TargetType
 	SingleEnemy,
 	AllEnemies,
 	MultipleEnemies,
-	Nearby enemies,
+	NearbyEnemies,
 	SingleAlly,
 	AllAllies
 };

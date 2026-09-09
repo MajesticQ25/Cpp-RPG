@@ -5,7 +5,7 @@
 
 class StatusEffect
 {
-  private:
+private:
 	std::string name;
 	std::string description;
 	int duration;
@@ -17,12 +17,12 @@ class StatusEffect
 
 	bool preventsAction;
 
-  public:
+public:
 	StatusEffect(std::string statusName,
 				 std::string statusDescription,
 				 int turns,
 				 int damage,
-				 int atkMod,
+				 float atkMod,
 				 int defMod,
 				 StatusType statusType,
 				 bool stopAction)

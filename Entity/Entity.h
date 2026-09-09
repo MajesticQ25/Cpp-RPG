@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <vector>
-#include "/workspaces/Cpp-RPG/Moves/Move.h"
+#include "Moves/Move.h"
 #include <cstdlib>
+#include "StatusEffect.h"
+#include "StatusDatabase.h"
 
 class Entity
 {
@@ -24,14 +26,14 @@ private:
 
 	int atkPow;
 	int defPow;
-	bool isBurned;
-	bool isStunned;
 
+	std::vector<StatusEffect> activeEffects;
 	std::vector<Move> moves;
 
 public:
 	Entity()
 	{
+
 		hp = 0;
 		maxHp = 0;
 		mp = 0;
@@ -45,8 +47,6 @@ public:
 
 		atkPow = 0;
 		defPow = 0;
-		isBurned = false;
-		isStunned = false;
 	}
 
 	bool isAlive()
@@ -85,17 +85,16 @@ public:
 	{
 		defPow = value;
 	}
-	
+
 	void setMaxExp(int value)
 	{
 		maxExp = value;
 	}
-	
+
 	void setExpReward(int value)
 	{
 		expReward = value;
 	}
-	
 
 	std::string getName()
 	{
@@ -106,32 +105,32 @@ public:
 	{
 		return hp;
 	}
-	
+
 	int getMaxHp()
 	{
 		return maxHp;
 	}
-	
+
 	int getMp()
 	{
 		return mp;
 	}
-	
+
 	int getMaxMp()
 	{
 		return maxMp;
 	}
-	
+
 	int getSp()
 	{
 		return sp;
 	}
-	
+
 	int getAtk()
 	{
 		return atkPow;
 	}
-	
+
 	int getDef()
 	{
 		return defPow;
@@ -146,16 +145,16 @@ public:
 	{
 		return exp;
 	}
-	
+
 	int getMaxExp()
 	{
 		return maxExp;
 	}
-	
+
 	int getExpReward()
 	{
 		return expReward;
-		}
+	}
 
 	int getMoveCount()
 	{
@@ -174,39 +173,37 @@ public:
 			std::cout << i + 1 << ". "
 					  << moves[i].getName()
 					  << "\n Power: "
-					  <<
-					  moves[i].getPower()
-					  << 
-					  " \n Accuracy: "
+					  << moves[i].getPower()
+					  << " \n Accuracy: "
 					  << moves[i].getAccuracy()
-					  <<"%\n"<<
-					  " \n MP Cost: "
-					  << 
-					  moves[i].getMpCost()
-					  <<
-					  std::endl;
+					  << "%\n"
+					  << " \n MP Cost: "
+					  << moves[i].getMpCost()
+					  << std::endl;
 		}
 	}
 
 	void useMove(int index, Entity &target)
 	{
 		Move move = moves[index];
-		int effect = move.getEffectType();
-		
+		StatusType type = move.getStatusType();
+
+		StatusEffect effect = StatusDatabase::getStatus(type);
+
 		if (mp < move.getMpCost())
 		{
 			std::cout << "Not enough MP!\n";
-				return;
-				}
+			return;
+		}
 
-				mp -= move.getMpCost();
-		
+		mp -= move.getMpCost();
+
 		//-----------------/
-		//Accuracy Check   /
+		// Accuracy Check   /
 		//-----------------/
-		
+
 		int roll = rand() % 100;
-		
+
 		if (roll >= move.getAccuracy())
 		{
 			std::cout << name << " used "
@@ -214,12 +211,12 @@ public:
 					  << " but missed!\n";
 			return;
 		}
-		
+
 		//------------------/
-		//Healing Effect    /
+		// Healing Effect    /
 		//------------------/
 
-		if (effect == EFFECT_HEAL)
+		if (type == StatusType::Heal)
 		{
 			int healAmount = 20;
 
@@ -235,7 +232,7 @@ public:
 		//--------------------/
 		// Critical hit check/
 		//------------------/
-		
+
 		bool isCrit = (rand() % 100) < 10;
 
 		int damage = (atkPow + move.getPower()) - target.defPow;
@@ -252,8 +249,6 @@ public:
 		if (isCrit)
 			std::cout << "Critical Hit!\n";
 
-					
-			
 		std::cout << "It dealt "
 				  << damage << " damage!\n";
 
@@ -262,25 +257,17 @@ public:
 		//------------------/
 		// Effects          /
 		//------------------/
-		
-		if (effect == EFFECT_BURN)
+
+		if (effect.getType() != StatusType::None)
 		{
-			target.isBurned = true;
-			std::cout << target.getName() << " was burned!\n";
-		}
-		else if (effect == EFFECT_STUN)
-		{
-			target.isStunned = true;
-			std::cout << target.getName() << " was stunned!\n";
-			return;
+			target.addStatusEffect(effect);
 		}
 	}
 
-	
 	//-------------------
 	// Damage Calc
 	//-------------------
-	
+
 	void takeDamage(int dmg)
 	{
 		hp -= dmg;
@@ -293,44 +280,40 @@ public:
 
 	void applyStatus()
 	{
-		if (isBurned)
+		for (StatusEffect &effect : activeEffects)
 		{
-			int burnDamage = 5;
-			takeDamage(burnDamage);
+			if (effect.dealsDamage())
+			{
+				int damage = effect.getDamagePerTurn();
 
-			if (hp < 0)
-				hp = 0;
+				takeDamage(damage);
 
-			std::cout << name << " is burned and takes "
-					  << burnDamage << " damage!\n";
+				std::cout << name
+						  << " takes "
+						  << damage
+						  << " damage from "
+						  << effect.getName()
+						  << "!\n";
+			}
+
+			effect.reduceDuration();
 		}
 	}
 
-	bool canAct()
-	{
-		if (isStunned)
-		{
-			std::cout << name << " is stunned and cannot move!\n";
-			isStunned = false; // wears off after one turn
-			return false;
-		}
-		return true;
-	}
-	
 	void gainExp(int amount)
 	{
 		exp += amount;
 
-			std::cout << name
-						  << " gained "
-										<< amount
-													  << " EXP!\n";
+		std::cout << name
+				  << " gained "
+				  << amount
+				  << " EXP!\n";
 
-														  while(exp >= maxExp)
-															  {
-																	  levelUp();
-																		  }
-																		  }
+		while (exp >= maxExp)
+		{
+			levelUp();
+		}
+	}
 
 	void levelUp()
 	{
@@ -341,7 +324,7 @@ public:
 
 		maxHp += 10;
 		hp = maxHp;
-		
+
 		maxMp += 5;
 		mp = maxMp;
 
@@ -358,9 +341,10 @@ public:
 		std::cout << "HP increased to "
 				  << maxHp
 				  << "\n";
-				  std::cout << "MP increased to "
-							<< maxMp
-									  << "\n";
+
+		std::cout << "MP increased to "
+				  << maxMp
+				  << "\n";
 
 		std::cout << "Attack increased to "
 				  << atkPow
@@ -370,9 +354,10 @@ public:
 				  << defPow
 				  << "\n";
 	}
-	
+
 	void showStats()
 	{
+
 		std::cout << "=============================\n";
 		std::cout << "         CHARACTER\n";
 		std::cout << "=============================\n";
@@ -387,23 +372,33 @@ public:
 
 		std::cout << "Attack  : " << getAtk() << "\n";
 		std::cout << "Defense : " << getDef() << "\n";
-		  std::cout 
-		  << "Status :";
+		std::cout
+			<< "Status :";
 
-		 if (isBurned)
-		 {
-			 std::cout << "Burned";
-			 }
-			 else if (isStunned)
-			 {
-				 std::cout << "Stunned";
-				 }
-				 else
-				 {
-					 std::cout << "Healthy";
-					 }
+		if (StatusType::Burn)
+		{
+			std::cout << "Burned";
+		}
+		else if (StatusType::Stun)
+		{
+			std::cout << "Stunned";
+		}
+		else
+		{
+			std::cout << "Healthy";
+		}
 
-					 std::cout << std::endl;
+		std::cout << std::endl;
+	}
+
+	void addStatusEffect(StatusEffect effect)
+	{
+		activeEffects.push_back(effect);
+
+		std::cout << name
+				  << " is afflicted with "
+				  << effect.getName()
+				  << "!\n";
 	}
 };
 

@@ -1,10 +1,6 @@
 #ifndef MOVE_H
 #define MOVE_H
-#define EFFECT_NONE 0
-#define EFFECT_BURN 1
-#define EFFECT_STUN 2
-#define EFFECT_HEAL 3
-
+#include "GameEnums.h"
 #include <string>
 
 class Move
@@ -14,17 +10,17 @@ class Move
 	int power;
 	int accuracy;
 	int mpCost;
-	int effectType;
+	StatusType statusType;
 	
 
   public:
-	Move(std::string n, int p, int a, int m, int e)
+	Move(std::string n, int p, int a, int m, StatusType eType)
 	{
 		name = n;
 		power = p;
 		mpCost = m;
 		accuracy = a;
-		effectType = e;
+		statusType = eType;
 	}
 
 	std::string getName()
@@ -47,9 +43,9 @@ class Move
 		return accuracy;
 	}
 
-	int getEffectType()
+	StatusType getStatusType() const
 	{
-		return effectType;
+		return statusType;
 	}
 };
 
