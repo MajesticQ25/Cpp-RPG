@@ -1,6 +1,6 @@
 #ifndef MOVE_H
 #define MOVE_H
-#include "GameEnums.h"
+#include "/workspaces/Cpp-RPG/Status Effects/GameEnums.h"
 #include <string>
 
 class Move

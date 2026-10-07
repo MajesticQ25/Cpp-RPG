@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <vector>
-#include "Moves/Move.h"
+#include "/workspaces/Cpp-RPG/Moves/Move.h"
 #include <cstdlib>
-#include "StatusEffect.h"
-#include "StatusDatabase.h"
+#include "/workspaces/Cpp-RPG/Status Effects/StatusEffect.h"
+#include "/workspaces/Cpp-RPG/Database/StatusDatabase.h"
 
 class Entity
 {
@@ -375,7 +375,7 @@ public:
 		std::cout
 			<< "Status :";
 
-		if (StatusType::Burn)
+		/* if (StatusType::Burn)
 		{
 			std::cout << "Burned";
 		}
@@ -388,7 +388,7 @@ public:
 			std::cout << "Healthy";
 		}
 
-		std::cout << std::endl;
+		std::cout << std::endl; */
 	}
 
 	void addStatusEffect(StatusEffect effect)
