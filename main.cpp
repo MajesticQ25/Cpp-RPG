@@ -40,7 +40,7 @@ int main()
 		30, // power
 		85, // accuracy
 		20, // mp cost
-		StatusType::None);
+		StatusType::Stun);
 
 	Move airShred(
 		"Air Shredder",
@@ -66,11 +66,6 @@ int main()
 	player.addMove(flamethrower);
 	player.addMove(starlight);
 	player.addMove(healingLight);
-
-	StatusType type = flamethrower.getStatusType();
-
-	StatusEffect effect =
-		StatusDatabase::getStatus(type);
 
 	enemy.addMove(airShred);
 	enemy.addMove(crash);
