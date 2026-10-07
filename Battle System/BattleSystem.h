@@ -28,7 +28,7 @@ public:
 			return;
 		}
 
-		player.applyStatus();
+		
 
 		if (!player.canAct())
 		{

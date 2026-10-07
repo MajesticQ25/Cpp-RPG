@@ -280,11 +280,11 @@ public:
 
 	void applyStatus()
 	{
-		for (StatusEffect &effect : activeEffects)
+		for (auto it = activeEffects.begin(); it != activeEffects.end();)
 		{
-			if (effect.dealsDamage())
+			if (it->dealsDamage())
 			{
-				int damage = effect.getDamagePerTurn();
+				int damage = it->getDamagePerTurn();
 
 				takeDamage(damage);
 
@@ -292,11 +292,23 @@ public:
 						  << " takes "
 						  << damage
 						  << " damage from "
-						  << effect.getName()
+						  << it->getName()
 						  << "!\n";
 			}
 
-			effect.reduceDuration();
+			it->reduceDuration();
+
+			if (it->hasExpired())
+			{
+				std::cout << it->getName()
+						  << " has worn off!\n";
+
+				it = activeEffects.erase(it);
+			}
+			else
+			{
+				++it;
+			}
 		}
 	}
 
