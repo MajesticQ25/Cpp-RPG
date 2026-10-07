@@ -300,6 +300,24 @@ public:
 		}
 	}
 
+	bool canAct()
+	{
+		for (StatusEffect &effect : activeEffects)
+		{
+			if (effect.doesPreventAction() && !effect.hasExpired())
+			{
+				std::cout << name
+						  << " cannot act because of "
+						  << effect.getName()
+						  << "!\n";
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	void gainExp(int amount)
 	{
 		exp += amount;

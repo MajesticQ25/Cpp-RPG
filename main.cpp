@@ -25,56 +25,50 @@ int main()
 	enemy.setSp(60);
 	enemy.setAtk(20);
 	enemy.setDef(50);
-	
+
 	enemy.setExpReward(100);
 
 	Move flamethrower(
-		"Flamethrower", 
-		40, //power
-		90, //accuracy
-		10, //mp cost
-		StatusType::Burn
-	);
-	
+		"Flamethrower",
+		40, // power
+		90, // accuracy
+		10, // mp cost
+		StatusType::Burn);
+
 	Move starlight(
-		"Starlight Flash", 
-		30, //power
-		85, //accuracy
-		20, //mp cost 
-		StatusType::None
-	);
-	
+		"Starlight Flash",
+		30, // power
+		85, // accuracy
+		20, // mp cost
+		StatusType::None);
+
 	Move airShred(
-		"Air Shredder", 
-		35, //power
-		80, //accuracy
-		10, //mp cost 
-		StatusType::None
-	);
-	
+		"Air Shredder",
+		35, // power
+		80, // accuracy
+		10, // mp cost
+		StatusType::None);
+
 	Move crash(
-		"Crash Into", 
-		50, //power
-		50, //accuracy
-		10, //mp cost 
-		StatusType::None
-	);
-	
+		"Crash Into",
+		50, // power
+		50, // accuracy
+		10, // mp cost
+		StatusType::None);
+
 	Move healingLight(
-		"Healing Light", 
-		0,  //power
-		100, //accuracy
-		10,  //mp cost
-		StatusType::None
-	);
+		"Healing Light",
+		0,	 // power
+		100, // accuracy
+		10,	 // mp cost
+		StatusType::Heal);
 
 	player.addMove(flamethrower);
 	player.addMove(starlight);
 	player.addMove(healingLight);
-	
+
 	StatusType type = flamethrower.getStatusType();
-	
-	
+
 	StatusEffect effect =
 		StatusDatabase::getStatus(type);
 

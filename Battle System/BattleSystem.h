@@ -7,7 +7,7 @@
 
 class BattleSystem
 {
-  public:
+public:
 	void playerTurn(Entity &player, Entity &enemy)
 	{
 		std::cout << "\nChoose a move:\n";
@@ -29,14 +29,19 @@ class BattleSystem
 		}
 
 		player.applyStatus();
-		
-		if(!player.isAlive())
+
+		if (!player.canAct())
 		{
+			player.applyStatus();
 			return;
 		}
 
-		if (!player.canAct())
+		player.applyStatus();
+
+		if (!player.isAlive())
+		{
 			return;
+		}
 
 		player.useMove(choice - 1, enemy);
 	}
@@ -44,21 +49,23 @@ class BattleSystem
 	void enemyTurn(Entity &enemy, Entity &player)
 	{
 		std::cout << "\n---- Enemy Turn ----\n";
-
-		int move = rand() % enemy.getMoveCount();
-
-		enemy.useMove(move, player);
+		if (!enemy.canAct())
+		{
+			enemy.applyStatus();
+			return;
+		}
 
 		enemy.applyStatus();
-		
-		if(!enemy.isAlive())
-		
+
+		if (!enemy.isAlive())
+
 		{
 			return;
 		}
 
-		if (!enemy.canAct())
-			return;
+		int move = rand() % enemy.getMoveCount();
+
+		enemy.useMove(move, player);
 	}
 
 	void startBattle(Entity &player, Entity &enemy)
@@ -88,8 +95,8 @@ class BattleSystem
 		{
 			std::cout << "\nVictory!\n";
 
-				player.gainExp(enemy.getExpReward());
-				}
+			player.gainExp(enemy.getExpReward());
+		}
 		else
 			std::cout << "\nYou were defeated.\n";
 	}
