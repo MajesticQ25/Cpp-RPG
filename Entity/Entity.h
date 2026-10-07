@@ -423,6 +423,19 @@ public:
 
 	void addStatusEffect(StatusEffect effect)
 	{
+		for (StatusEffect &activeEffect : activeEffects)
+		{
+			if (activeEffect.getType() == effect.getType())
+			{
+				std::cout << name
+						  << " is already afflicted with "
+						  << effect.getName()
+						  << "!\n";
+
+				return;
+			}
+		}
+
 		activeEffects.push_back(effect);
 
 		std::cout << name
