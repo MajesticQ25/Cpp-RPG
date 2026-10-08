@@ -131,6 +131,26 @@ public:
 		return atkPow;
 	}
 
+	int getEffectiveAtk()
+	{
+		float effectiveAtk = atkPow;
+
+		for (const StatusEffect &effect : activeEffects)
+		{
+			if (!effect.hasExpired())
+			{
+				effectiveAtk *= (1.0f + effect.getAttackModifier());
+			}
+		}
+
+		if (effectiveAtk < 0)
+		{
+			effectiveAtk = 0;
+		}
+
+		return static_cast<int>(effectiveAtk);
+	}
+
 	int getDef()
 	{
 		return defPow;
@@ -235,7 +255,7 @@ public:
 
 		bool isCrit = (rand() % 100) < 10;
 
-		int damage = (atkPow + move.getPower()) - target.defPow;
+		int damage = (getEffectiveAtk() + move.getPower()) - target.getDef();
 
 		if (isCrit)
 			damage *= 2;

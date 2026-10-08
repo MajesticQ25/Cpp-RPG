@@ -10,8 +10,8 @@ private:
 	std::string description;
 	int duration;
 	int damagePerTurn;
-	int attackModifier;
-	int defenseModifier;
+	float attackModifier;
+	float defenseModifier;
 
 	StatusType type;
 
@@ -23,7 +23,7 @@ public:
 				 int turns,
 				 int damage,
 				 float atkMod,
-				 int defMod,
+				 float defMod,
 				 StatusType statusType,
 				 bool stopAction)
 	{
@@ -52,12 +52,12 @@ public:
 		return duration;
 	}
 
-	int getAttackModifier() const
+	float getAttackModifier() const
 	{
 		return attackModifier;
 	}
 
-	int getDefenseModifier() const
+	float getDefenseModifier() const
 	{
 		return defenseModifier;
 	}
