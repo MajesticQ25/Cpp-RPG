@@ -71,9 +71,12 @@ public:
 	float getExp() const { return exp; }
 	float getWeight() const { return weight; }
 
-	void addModifier(StatType stat, float value)
+	void addModifier(
+		StatType stat,
+		float value,
+		ModifierType modType)
 	{
-		modifiers.push_back({stat, value});
+		modifiers.push_back({stat, value, modType});
 	}
 
 	std::string toString() const
@@ -88,11 +91,22 @@ public:
 		result += "Special Effect Description: " + specialEffectDescription + "\n";
 		result += "Special Effect Type: " + specialEffectType + "\n";
 		result += "Special Ability: " + specialAbility + "\n";
-		result += "Modifiers: ";
+		result += "Modifiers: \n";
 
 		for (const auto &modifier : modifiers)
 		{
-			result += "Stat: " + std::to_string(static_cast<float>(modifier.stat)) + ", Value: " + std::to_string(modifier.value) + ", ";
+			result += "Stat: " + std::to_string(static_cast<int>(modifier.stat));
+
+			if (modifier.modifierType == ModifierType::Percent)
+			{
+				result += ", Percent: " + std::to_string(modifier.value * 100.0f) + "%";
+			}
+			else
+			{
+				result += ", Flat: " + std::to_string(modifier.value);
+			}
+
+			result += "\n";
 		}
 
 		result += "\nApplicable Classes: ";

@@ -4,6 +4,7 @@
 #include "/workspaces/Cpp-RPG/Battle System/BattleSystem.h"
 #include "/workspaces/Cpp-RPG/Status Effects/StatusEffect.h"
 #include "/workspaces/Cpp-RPG/Database/StatusDatabase.h"
+#include "/workspaces/Cpp-RPG/Equipment/Equipment.h"
 
 int main()
 {
@@ -69,6 +70,27 @@ int main()
 
 	enemy.addMove(airShred);
 	enemy.addMove(crash);
+
+	Equipment testSword;
+	testSword.addModifier(StatType::Attack, 15.0f, ModifierType::Flat);
+	testSword.addModifier(StatType::Magic, 0.20f, ModifierType::Percent);
+	std::cout << "\n===== EQUIPMENT MODIFIER TEST =====\n";
+
+	std::cout << "\n===== EQUIPMENT SLOT TEST =====\n";
+
+	player.equipWeapon(testSword);
+
+	if (player.getEquippedWeapon() != nullptr)
+	{
+		std::cout << "Weapon equipped successfully!\n";
+	}
+
+	player.unequipWeapon();
+
+	if (player.getEquippedWeapon() == nullptr)
+	{
+		std::cout << "Weapon unequipped successfully!\n";
+	}
 
 	BattleSystem battle;
 

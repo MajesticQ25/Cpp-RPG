@@ -37,9 +37,7 @@ public:
 			return;
 		}
 
-		player.applyStatus();
-
-		if (!player.isAlive())
+				if (!player.isAlive())
 		{
 			return;
 		}

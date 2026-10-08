@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include "/workspaces/Cpp-RPG/Status Effects/StatusEffect.h"
 #include "/workspaces/Cpp-RPG/Database/StatusDatabase.h"
+#include "/workspaces/Cpp-RPG/Equipment/Equipment.h"
+#include <optional>
 
 class Entity
 {
@@ -29,6 +31,7 @@ private:
 
 	std::vector<StatusEffect> activeEffects;
 	std::vector<Move> moves;
+	std::optional<Equipment> equippedWeapon;
 
 public:
 	Entity()
@@ -156,6 +159,26 @@ public:
 		return defPow;
 	}
 
+	int getEffectiveDef()
+	{
+		float effectiveDef = defPow;
+
+		for (const StatusEffect &effect : activeEffects)
+		{
+			if (!effect.hasExpired())
+			{
+				effectiveDef *= (1.0f + effect.getDefenseModifier());
+			}
+		}
+
+		if (effectiveDef < 0)
+		{
+			effectiveDef = 0;
+		}
+
+		return static_cast<int>(effectiveDef);
+	}
+
 	int getLevel()
 	{
 		return level;
@@ -180,10 +203,39 @@ public:
 	{
 		return moves.size();
 	}
+	const Equipment *getEquippedWeapon() const
+	{
+		if (!equippedWeapon.has_value())
+		{
+			return nullptr;
+		}
+
+		return &equippedWeapon.value();
+	}
 
 	void addMove(Move move)
 	{
 		moves.push_back(move);
+	}
+
+	void equipWeapon(const Equipment &weapon)
+	{
+		equippedWeapon = weapon;
+
+		std::cout << name << " equipped a weapon!\n";
+	}
+
+	void unequipWeapon()
+	{
+		if (!equippedWeapon.has_value())
+		{
+			std::cout << name << " has no weapon equipped!\n";
+			return;
+		}
+
+		equippedWeapon.reset();
+
+		std::cout << name << " unequipped their weapon!\n";
 	}
 
 	void showMoves()
@@ -255,7 +307,7 @@ public:
 
 		bool isCrit = (rand() % 100) < 10;
 
-		int damage = (getEffectiveAtk() + move.getPower()) - target.getDef();
+		int damage = (getEffectiveAtk() + move.getPower()) - target.getEffectiveDef();
 
 		if (isCrit)
 			damage *= 2;

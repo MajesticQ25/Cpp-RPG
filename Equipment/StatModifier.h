@@ -3,18 +3,29 @@
 
 enum class StatType
 {
-    Attack,
-    Defense,
-    Speed,
-    MaxHP,
-    MaxMP,
-    Magic
+	Attack,
+	Defense,
+	Speed,
+	MaxHP,
+	MaxMP,
+	Magic,
+	Strength,
+	Agility,
+	MagicAttack,
+	MagicDefense
+};
+
+enum class ModifierType
+{
+	Flat,
+	Percent
 };
 
 struct StatModifier
 {
-    StatType stat;
-    float value;
+	StatType stat;
+	float value;
+	ModifierType modifierType;
 };
 
 #endif
