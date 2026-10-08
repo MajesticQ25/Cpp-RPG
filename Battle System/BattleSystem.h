@@ -10,6 +10,15 @@ class BattleSystem
 public:
 	void playerTurn(Entity &player, Entity &enemy)
 	{
+
+		if (!player.canAct())
+		{
+			player.applyStatus();
+			return;
+		}
+
+		player.applyStatus();
+
 		std::cout << "\nChoose a move:\n";
 
 		player.showMoves();
@@ -25,14 +34,6 @@ public:
 
 		if (!enemy.isAlive())
 		{
-			return;
-		}
-
-		
-
-		if (!player.canAct())
-		{
-			player.applyStatus();
 			return;
 		}
 

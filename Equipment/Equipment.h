@@ -1,9 +1,8 @@
-#pragma once
-
 #ifndef EQUIPMENT_H
 #define EQUIPMENT_H
 #include <string>
 #include <vector>
+#include "StatModifier.h"
 
 class Equipment
 {
@@ -18,7 +17,7 @@ private:
 	std::string specialEffectDescription;		// The description of the special effect of the equipment
 	std::string specialEffectType;				// The type of the special effect (e.g., status effect, double attack, etc.)
 	std::string specialAbility;					// The special ability of the equipment (e.g., fireball, heal, etc.)
-	std::vector<std::string> modifiers;			// The idea behind this is to store all the modifiers (atk, def, mag, etc...) into a vector and consolidate code while also making getting the modifiers that apply to each piece of equipent more manageable and efficient.
+	std::vector<StatModifier> modifiers;		// The idea behind this is to store all the modifiers (atk, def, mag, etc...) into a vector and consolidate code while also making getting the modifiers that apply to each piece of equipent more manageable and efficient.
 	std::vector<std::string> applicableClasses; // The classes that can equip this equipment (e.g., warrior, mage, rogue)
 	int level;
 	int attack;
@@ -41,7 +40,7 @@ public:
 		specialEffectDescription = "";
 		specialEffectType = "";
 		specialAbility = "";
-		modifiers = std::vector<std::string>();
+		modifiers = std::vector<StatModifier>();
 		applicableClasses = std::vector<std::string>();
 		level = 1;
 		attack = 0;
@@ -62,7 +61,7 @@ public:
 	std::string getSpecialEffectDescription() const { return specialEffectDescription; }
 	std::string getSpecialEffectType() const { return specialEffectType; }
 	std::string getSpecialAbility() const { return specialAbility; }
-	std::vector<std::string> getModifiers() const { return modifiers; }
+	const std::vector<StatModifier> &getModifiers() const { return modifiers; }
 	std::vector<std::string> getApplicableClasses() const { return applicableClasses; }
 	int getLevel() const { return level; }
 	int getAttack() const { return attack; }
@@ -71,6 +70,11 @@ public:
 	int getDurability() const { return durability; }
 	float getExp() const { return exp; }
 	float getWeight() const { return weight; }
+
+	void addModifier(StatType stat, float value)
+	{
+		modifiers.push_back({stat, value});
+	}
 
 	std::string toString() const
 	{
@@ -85,15 +89,19 @@ public:
 		result += "Special Effect Type: " + specialEffectType + "\n";
 		result += "Special Ability: " + specialAbility + "\n";
 		result += "Modifiers: ";
+
 		for (const auto &modifier : modifiers)
 		{
-			result += modifier + ", ";
+			result += "Stat: " + std::to_string(static_cast<float>(modifier.stat)) + ", Value: " + std::to_string(modifier.value) + ", ";
 		}
+
 		result += "\nApplicable Classes: ";
+
 		for (const auto &applicableClass : applicableClasses)
 		{
 			result += applicableClass + ", ";
 		}
+
 		result += "\nLevel: " + std::to_string(level) + "\n";
 		result += "Attack: " + std::to_string(attack) + "\n";
 		result += "Defense: " + std::to_string(defense) + "\n";
