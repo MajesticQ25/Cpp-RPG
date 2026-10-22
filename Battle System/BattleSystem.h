@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "/workspaces/Cpp-RPG/Entity/Entity.h"
+#include "Cpp-RPG/Entity/Entity.h"
 
 class BattleSystem
 {
@@ -37,7 +37,7 @@ public:
 			return;
 		}
 
-				if (!player.isAlive())
+		if (!player.isAlive())
 		{
 			return;
 		}

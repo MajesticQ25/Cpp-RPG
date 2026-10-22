@@ -3,11 +3,11 @@
 
 #include <iostream>
 #include <vector>
-#include "/workspaces/Cpp-RPG/Moves/Move.h"
+#include "../Moves/Move.h"
 #include <cstdlib>
-#include "/workspaces/Cpp-RPG/Status Effects/StatusEffect.h"
-#include "/workspaces/Cpp-RPG/Database/StatusDatabase.h"
-#include "/workspaces/Cpp-RPG/Equipment/Equipment.h"
+#include "../Status Effects/StatusEffect.h"
+#include "../Database/StatusDatabase.h"
+#include "../Equipment/Equipment.h"
 #include <optional>
 
 class Entity

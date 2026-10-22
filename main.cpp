@@ -1,10 +1,10 @@
 #include <iostream>
 #include <ctime>
-#include "/workspaces/Cpp-RPG/Entity/Entity.h"
-#include "/workspaces/Cpp-RPG/Battle System/BattleSystem.h"
-#include "/workspaces/Cpp-RPG/Status Effects/StatusEffect.h"
-#include "/workspaces/Cpp-RPG/Database/StatusDatabase.h"
-#include "/workspaces/Cpp-RPG/Equipment/Equipment.h"
+#include "Entity/Entity.h"
+#include "Battle System/BattleSystem.h"
+#include "Status Effects/StatusEffect.h"
+#include "Database/StatusDatabase.h"
+#include "Equipment/Equipment.h"
 
 int main()
 {

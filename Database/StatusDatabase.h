@@ -1,6 +1,6 @@
 #ifndef STATUS_DATABASE_H
 #define STATUS_DATABASE_H
-#include "/workspaces/Cpp-RPG/Status Effects/StatusEffect.h"
+#include "../Status Effects/StatusEffect.h"
 
 class StatusDatabase
 {

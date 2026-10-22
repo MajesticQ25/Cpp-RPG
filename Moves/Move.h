@@ -1,19 +1,18 @@
 #ifndef MOVE_H
 #define MOVE_H
-#include "/workspaces/Cpp-RPG/Status Effects/GameEnums.h"
+#include "Cpp-RPG\Status Effects\GameEnums.h"
 #include <string>
 
 class Move
 {
-  private:
+private:
 	std::string name;
 	int power;
 	int accuracy;
 	int mpCost;
 	StatusType statusType;
-	
 
-  public:
+public:
 	Move(std::string n, int p, int a, int m, StatusType eType)
 	{
 		name = n;
@@ -32,7 +31,7 @@ class Move
 	{
 		return power;
 	}
-	
+
 	int getMpCost()
 	{
 		return mpCost;
