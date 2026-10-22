@@ -21,6 +21,10 @@ public:
 		int choice;
 
 		player.applyStatus();
+		if (!player.isAlive())
+		{
+			return;
+		}
 
 		while (true)
 		{
@@ -41,11 +45,6 @@ public:
 		}
 
 		if (!enemy.isAlive())
-		{
-			return;
-		}
-
-		if (!player.isAlive())
 		{
 			return;
 		}

@@ -82,14 +82,22 @@ int main()
 
 	std::cout << "\n===== EQUIPMENT SLOT TEST =====\n";
 
+	std::cout << "Before: "
+			  << player.getEffectiveAtk() << "\n";
+
 	player.equipWeapon(testSword);
 
 	if (player.getEquippedWeapon() != nullptr)
 	{
 		std::cout << "Weapon equipped successfully!\n";
 	}
+	std::cout << "Equipped: "
+			  << player.getEffectiveAtk() << "\n";
 
 	player.unequipWeapon();
+
+	std::cout << "Unequipped: "
+			  << player.getEffectiveAtk() << "\n";
 
 	if (player.getEquippedWeapon() == nullptr)
 	{

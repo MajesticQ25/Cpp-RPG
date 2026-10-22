@@ -146,10 +146,8 @@ public:
 			}
 		}
 
-		if (effectiveAtk < 0)
-		{
-			effectiveAtk = 0;
-		}
+		if (effectiveAtk < 0.0f)
+			effectiveAtk = 0.0f;
 
 		return static_cast<int>(effectiveAtk);
 	}
