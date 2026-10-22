@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "Cpp-RPG/Entity/Entity.h"
+#include <limits>
+#include "../Entity/Entity.h"
 
 class BattleSystem
 {
@@ -17,19 +18,26 @@ public:
 			return;
 		}
 
+		int choice;
+
 		player.applyStatus();
 
-		std::cout << "\nChoose a move:\n";
-
-		player.showMoves();
-
-		int choice;
-		std::cin >> choice;
-
-		if (choice < 1 || choice > player.getMoveCount())
+		while (true)
 		{
-			std::cout << "Invalid move!\n";
-			return;
+			std::cout << "\nChoose a move:\n";
+
+			player.showMoves();
+
+			if (std::cin >> choice && choice >= 1 && choice <= player.getMoveCount())
+			{
+				break;
+			}
+			else
+			{
+				std::cout << "Invalid input! Please try again.\n";
+				std::cin.clear();													// Clear the error flag
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+			}
 		}
 
 		if (!enemy.isAlive())

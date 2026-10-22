@@ -74,6 +74,9 @@ int main()
 	Equipment testSword;
 	testSword.addModifier(StatType::Attack, 15.0f, ModifierType::Flat);
 	testSword.addModifier(StatType::Magic, 0.20f, ModifierType::Percent);
+	std::cout << "Modifier count: "
+			  << testSword.getModifiers().size()
+			  << "\n";
 	std::cout << "\n===== EQUIPMENT MODIFIER TEST =====\n";
 
 	std::cout << "\n===== EQUIPMENT SLOT TEST =====\n";
