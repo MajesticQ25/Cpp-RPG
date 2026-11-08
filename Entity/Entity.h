@@ -209,6 +209,24 @@ public:
 			}
 		}
 
+		if (equippedArmor.has_value())
+		{
+			for (const StatModifier &modifier : equippedArmor->getModifiers())
+			{
+				if (modifier.stat == StatType::Defense)
+				{
+					if (modifier.modifierType == ModifierType::Flat)
+					{
+						flatBonus += modifier.value;
+					}
+					else if (modifier.modifierType == ModifierType::Percent)
+					{
+						percentBonus += modifier.value;
+					}
+				}
+			}
+		}
+
 		float effectiveDef = (defPow + flatBonus) * (1.0f + percentBonus);
 
 		for (const StatusEffect &effect : activeEffects)
@@ -251,39 +269,18 @@ public:
 	{
 		return moves.size();
 	}
-	const Equipment *getEquippedWeapon() const
-	{
-		if (!equippedWeapon.has_value())
-		{
-			return nullptr;
-		}
 
-		return &equippedWeapon.value();
-	}
+	void equipWeapon(const Equipment &weapon);
+	void equipArmor(const Equipment &armor);
+	const Equipment *getEquippedArmor() const;
+	void unequipArmor();
+	void unequipWeapon();
+
+	const Equipment *getEquippedWeapon() const;
 
 	void addMove(Move move)
 	{
 		moves.push_back(move);
-	}
-
-	void equipWeapon(const Equipment &weapon)
-	{
-		equippedWeapon = weapon;
-
-		std::cout << name << " equipped a weapon!\n";
-	}
-
-	void unequipWeapon()
-	{
-		if (!equippedWeapon.has_value())
-		{
-			std::cout << name << " has no weapon equipped!\n";
-			return;
-		}
-
-		equippedWeapon.reset();
-
-		std::cout << name << " unequipped their weapon!\n";
 	}
 
 	void showMoves()

@@ -82,6 +82,11 @@ int main()
 						  10.0f,
 						  ModifierType::Flat);
 
+	Equipment testArmor;
+	testArmor.addModifier(StatType::Defense,
+						  10.0f,
+						  ModifierType::Flat);
+
 	std::cout << "\n===== EQUIPMENT MODIFIER TEST =====\n";
 	std::cout << "Effective Defense before equipping: "
 			  << player.getEffectiveDef()
@@ -97,15 +102,22 @@ int main()
 			  << player.getEffectiveAtk() << "\n";
 
 	player.equipWeapon(testSword);
+	player.equipArmor(testArmor);
 
 	if (player.getEquippedWeapon() != nullptr)
 	{
 		std::cout << "Weapon equipped successfully!\n";
 	}
-	std::cout << "Equipped weapon attack: "
+
+	if (player.getEquippedArmor() != nullptr)
+	{
+		std::cout << "\nArmor equipped successfully!\n";
+	}
+
+	std::cout << "\nEquipped weapon attack: "
 			  << player.getEffectiveAtk() << "\n";
 
-	std::cout << "Effective Defense after equipping: "
+	std::cout << "\nEffective Defense after equipping: "
 			  << player.getEffectiveDef()
 			  << "\n";
 
@@ -116,10 +128,10 @@ int main()
 	*/
 	if (player.getEquippedWeapon() == nullptr)
 	{
-		std::cout << "Weapon unequipped successfully!\n";
+		std::cout << "\nWeapon unequipped successfully!\n";
 	}
 
-	std::cout << "Effective Defense entering battle: "
+	std::cout << "\nEffective Defense entering battle: "
 			  << player.getEffectiveDef()
 			  << "\n";
 
