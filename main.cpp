@@ -72,10 +72,21 @@ int main()
 	enemy.addMove(crash);
 
 	Equipment testSword;
-	testSword.addModifier(StatType::Attack, 15.0f, ModifierType::Flat);
-	testSword.addModifier(StatType::Magic, 0.20f, ModifierType::Percent);
+	testSword.addModifier(StatType::Attack,
+						  15.0f,
+						  ModifierType::Flat);
+	testSword.addModifier(StatType::Magic,
+						  0.20f,
+						  ModifierType::Percent);
+	testSword.addModifier(StatType::Defense,
+						  10.0f,
+						  ModifierType::Flat);
 
 	std::cout << "\n===== EQUIPMENT MODIFIER TEST =====\n";
+	std::cout << "Effective Defense before equipping: "
+			  << player.getEffectiveDef()
+			  << "\n";
+
 	std::cout << "Modifier count: "
 			  << testSword.getModifiers().size()
 			  << "\n";
@@ -91,18 +102,26 @@ int main()
 	{
 		std::cout << "Weapon equipped successfully!\n";
 	}
-	std::cout << "Equipped: "
+	std::cout << "Equipped weapon attack: "
 			  << player.getEffectiveAtk() << "\n";
 
-	player.unequipWeapon();
+	std::cout << "Effective Defense after equipping: "
+			  << player.getEffectiveDef()
+			  << "\n";
 
-	std::cout << "Unequipped: "
-			  << player.getEffectiveAtk() << "\n";
+	// player.unequipWeapon();
 
+	/* std::cout << "Unequipped: "
+	<< player.getEffectiveAtk() << "\n";
+	*/
 	if (player.getEquippedWeapon() == nullptr)
 	{
 		std::cout << "Weapon unequipped successfully!\n";
 	}
+
+	std::cout << "Effective Defense entering battle: "
+			  << player.getEffectiveDef()
+			  << "\n";
 
 	BattleSystem battle;
 

@@ -32,6 +32,7 @@ private:
 	std::vector<StatusEffect> activeEffects;
 	std::vector<Move> moves;
 	std::optional<Equipment> equippedWeapon;
+	std::optional<Equipment> equippedArmor;
 
 public:
 	Entity()
@@ -136,7 +137,35 @@ public:
 
 	int getEffectiveAtk()
 	{
-		float effectiveAtk = atkPow;
+
+		float flatBonus = 0.0f;
+		float percentBonus = 0.0f;
+
+		// STEP 1: Collect equipment modifiers
+		if (equippedWeapon.has_value())
+		{
+			for (const StatModifier &modifier :
+				 equippedWeapon->getModifiers())
+			{
+				if (modifier.stat == StatType::Attack)
+				{
+					if (modifier.modifierType == ModifierType::Flat)
+					{
+						flatBonus += modifier.value;
+					}
+					else if (modifier.modifierType == ModifierType::Percent)
+					{
+						percentBonus += modifier.value;
+					}
+				}
+			}
+		}
+
+		// STEP 2: Calculate Attack with equipment bonuses
+		float effectiveAtk =
+			(atkPow + flatBonus) * (1.0f + percentBonus);
+
+		// STEP 3: Apply temporary status effects
 
 		for (const StatusEffect &effect : activeEffects)
 		{
@@ -159,7 +188,28 @@ public:
 
 	int getEffectiveDef()
 	{
-		float effectiveDef = defPow;
+		float flatBonus{0.0f};
+		float percentBonus{0.0f};
+
+		if (equippedWeapon.has_value())
+		{
+			for (const StatModifier &modifier : equippedWeapon->getModifiers())
+			{
+				if (modifier.stat == StatType::Defense)
+				{
+					if (modifier.modifierType == ModifierType::Flat)
+					{
+						flatBonus += modifier.value;
+					}
+					else if (modifier.modifierType == ModifierType::Percent)
+					{
+						percentBonus += modifier.value;
+					}
+				}
+			}
+		}
+
+		float effectiveDef = (defPow + flatBonus) * (1.0f + percentBonus);
 
 		for (const StatusEffect &effect : activeEffects)
 		{
