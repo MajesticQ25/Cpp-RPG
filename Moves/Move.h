@@ -22,22 +22,22 @@ public:
 		statusType = eType;
 	}
 
-	std::string getName()
+	std::string getName() const
 	{
 		return name;
 	}
 
-	int getPower()
+	int getPower() const
 	{
 		return power;
 	}
 
-	int getMpCost()
+	int getMpCost() const
 	{
 		return mpCost;
 	}
 
-	int getAccuracy()
+	int getAccuracy() const
 	{
 		return accuracy;
 	}

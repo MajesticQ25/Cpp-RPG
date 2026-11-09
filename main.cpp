@@ -87,6 +87,10 @@ int main()
 						  10.0f,
 						  ModifierType::Flat);
 
+	testArmor.addModifier(StatType::Attack,
+						  0.05f,
+						  ModifierType::Percent);
+
 	std::cout << "\n===== EQUIPMENT MODIFIER TEST =====\n";
 	std::cout << "Effective Defense before equipping: "
 			  << player.getEffectiveDef()
@@ -103,6 +107,7 @@ int main()
 
 	player.equipWeapon(testSword);
 	player.equipArmor(testArmor);
+	player.showStats();
 
 	if (player.getEquippedWeapon() != nullptr)
 	{

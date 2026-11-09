@@ -34,6 +34,12 @@ private:
 	std::optional<Equipment> equippedWeapon;
 	std::optional<Equipment> equippedArmor;
 
+	void collectEquipmentModifiers(
+		const Equipment &item,
+		StatType stat,
+		float &flatBonus,
+		float &percentBonus) const;
+
 public:
 	Entity()
 	{
@@ -135,115 +141,14 @@ public:
 		return atkPow;
 	}
 
-	int getEffectiveAtk()
-	{
-
-		float flatBonus = 0.0f;
-		float percentBonus = 0.0f;
-
-		// STEP 1: Collect equipment modifiers
-		if (equippedWeapon.has_value())
-		{
-			for (const StatModifier &modifier :
-				 equippedWeapon->getModifiers())
-			{
-				if (modifier.stat == StatType::Attack)
-				{
-					if (modifier.modifierType == ModifierType::Flat)
-					{
-						flatBonus += modifier.value;
-					}
-					else if (modifier.modifierType == ModifierType::Percent)
-					{
-						percentBonus += modifier.value;
-					}
-				}
-			}
-		}
-
-		// STEP 2: Calculate Attack with equipment bonuses
-		float effectiveAtk =
-			(atkPow + flatBonus) * (1.0f + percentBonus);
-
-		// STEP 3: Apply temporary status effects
-
-		for (const StatusEffect &effect : activeEffects)
-		{
-			if (!effect.hasExpired())
-			{
-				effectiveAtk *= (1.0f + effect.getAttackModifier());
-			}
-		}
-
-		if (effectiveAtk < 0.0f)
-			effectiveAtk = 0.0f;
-
-		return static_cast<int>(effectiveAtk);
-	}
+	int getEffectiveAtk();
 
 	int getDef()
 	{
 		return defPow;
 	}
 
-	int getEffectiveDef()
-	{
-		float flatBonus{0.0f};
-		float percentBonus{0.0f};
-
-		if (equippedWeapon.has_value())
-		{
-			for (const StatModifier &modifier : equippedWeapon->getModifiers())
-			{
-				if (modifier.stat == StatType::Defense)
-				{
-					if (modifier.modifierType == ModifierType::Flat)
-					{
-						flatBonus += modifier.value;
-					}
-					else if (modifier.modifierType == ModifierType::Percent)
-					{
-						percentBonus += modifier.value;
-					}
-				}
-			}
-		}
-
-		if (equippedArmor.has_value())
-		{
-			for (const StatModifier &modifier : equippedArmor->getModifiers())
-			{
-				if (modifier.stat == StatType::Defense)
-				{
-					if (modifier.modifierType == ModifierType::Flat)
-					{
-						flatBonus += modifier.value;
-					}
-					else if (modifier.modifierType == ModifierType::Percent)
-					{
-						percentBonus += modifier.value;
-					}
-				}
-			}
-		}
-
-		float effectiveDef = (defPow + flatBonus) * (1.0f + percentBonus);
-
-		for (const StatusEffect &effect : activeEffects)
-		{
-			if (!effect.hasExpired())
-			{
-				effectiveDef *= (1.0f + effect.getDefenseModifier());
-			}
-		}
-
-		if (effectiveDef < 0)
-		{
-			effectiveDef = 0;
-		}
-
-		return static_cast<int>(effectiveDef);
-	}
+	int getEffectiveDef();
 
 	int getLevel()
 	{
@@ -283,22 +188,7 @@ public:
 		moves.push_back(move);
 	}
 
-	void showMoves()
-	{
-		for (size_t i = 0; i < moves.size(); i++)
-		{
-			std::cout << i + 1 << ". "
-					  << moves[i].getName()
-					  << "\n Power: "
-					  << moves[i].getPower()
-					  << " \n Accuracy: "
-					  << moves[i].getAccuracy()
-					  << "%\n"
-					  << " \n MP Cost: "
-					  << moves[i].getMpCost()
-					  << std::endl;
-		}
-	}
+	void showMoves();
 
 	void useMove(int index, Entity &target)
 	{
@@ -391,8 +281,6 @@ public:
 
 		if (hp < 0)
 			hp = 0;
-
-		std::cout << name << " HP: " << hp << std::endl;
 	}
 
 	void applyStatus()
@@ -411,6 +299,8 @@ public:
 						  << " damage from "
 						  << it->getName()
 						  << "!\n";
+
+				std::cout << name << " HP: " << hp << std::endl;
 			}
 
 			it->reduceDuration();
@@ -502,47 +392,13 @@ public:
 				  << "\n";
 	}
 
-	void showStats()
-	{
-
-		std::cout << "=============================\n";
-		std::cout << "         CHARACTER\n";
-		std::cout << "=============================\n";
-
-		std::cout << "Name    : " << getName() << "\n";
-		std::cout << "Level   : " << getLevel() << "\n";
-		std::cout << "EXP     : " << getExp() << "/" << getMaxExp() << "\n";
-
-		std::cout << "HP      : " << getHp() << "/" << getMaxHp() << "\n";
-		std::cout << "MP      : " << getMp() << "/" << getMaxMp() << "\n";
-		std::cout << "SP      : " << getSp() << "\n";
-
-		std::cout << "Attack  : " << getAtk() << "\n";
-		std::cout << "Defense : " << getDef() << "\n";
-		std::cout
-			<< "Status :";
-
-		/* if (StatusType::Burn)
-		{
-			std::cout << "Burned";
-		}
-		else if (StatusType::Stun)
-		{
-			std::cout << "Stunned";
-		}
-		else
-		{
-			std::cout << "Healthy";
-		}
-
-		std::cout << std::endl; */
-	}
+	void showStats();
 
 	void addStatusEffect(StatusEffect effect)
 	{
 		for (StatusEffect &activeEffect : activeEffects)
 		{
-			if (activeEffect.getType() == effect.getType())
+			if (activeEffect.getType() == effect.getType() && !activeEffect.hasExpired() && hp > 0)
 			{
 				std::cout << name
 						  << " is already afflicted with "
@@ -555,10 +411,20 @@ public:
 
 		activeEffects.push_back(effect);
 
-		std::cout << name
-				  << " is afflicted with "
-				  << effect.getName()
-				  << "!\n";
+		if (hp > 0)
+		{
+			std::cout << name
+					  << " is afflicted with "
+					  << effect.getName()
+					  << "!\n";
+		}
+		// else
+		// {
+		// 	std::cout << name
+		// 			  << " has been defeated and cannot be afflicted with "
+		// 			  << effect.getName()
+		// 			  << "!\n";
+		// }
 	}
 };
 
