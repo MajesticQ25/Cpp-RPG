@@ -261,6 +261,10 @@ public:
 
 		target.takeDamage(damage);
 
+		std::cout << target.getName()
+				  << " HP: " << target.getHp()
+				  << "/" << target.getMaxHp() << "\n";
+
 		//------------------/
 		// Effects          /
 		//------------------/
@@ -396,6 +400,11 @@ public:
 
 	void addStatusEffect(StatusEffect effect)
 	{
+		if (!isAlive())
+
+		{
+			return;
+		}
 		for (StatusEffect &activeEffect : activeEffects)
 		{
 			if (activeEffect.getType() == effect.getType() && !activeEffect.hasExpired() && hp > 0)
